@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router();
 const { body } = require('express-validator') // kissi bhi data to validate krne ke liye i installed express-validator package
 const userController = require('../controller/user.controller')
+const authMiddleware = require('../middleware/auth.middleware')
+
 
 router.post('/register',[
     body('email').isEmail().withMessage("Invalid Email"),//body ke ander jo email h usko check
@@ -19,8 +21,7 @@ router.post('/login',[
 userController.login
 )
 
-
-
+router.get('/logout',authMiddleware.authUser,userController.logout);
 
 
 
