@@ -103,3 +103,97 @@ The request body must be a JSON object containing the following fields:
   }
 }
 ```
+
+### POST /users/login
+
+#### Description
+This endpoint is used to log in an existing user.
+
+#### Request Body
+The request body must be a JSON object containing the following fields:
+- `email`: A valid email address (required)
+- `password`: A string with at least 6 characters (required)
+
+#### Example Request
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User logged in successfully.
+  - **Body**: A JSON object containing the authentication token and user details.
+  - **Example**:
+    ```json
+    {
+      "token": "your_jwt_token",
+      "user": {
+        "_id": "user_id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com"
+      }
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Validation error or missing required fields.
+  - **Body**: A JSON object containing the validation errors.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid Email",
+          "param": "email",
+          "location": "body"
+        },
+        {
+          "msg": "Password must be 6 character long",
+          "param": "password",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: Invalid email or password.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
+
+#### Example Response
+```json
+{
+  "token": "your_jwt_token",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
