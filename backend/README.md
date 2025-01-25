@@ -276,3 +276,118 @@ This endpoint is used to log out the user.
       "error": "Internal Server Error"
     }
     ```
+
+### POST /captains/register
+
+#### Description
+This endpoint is used to register a new captain.
+
+#### Request Body
+The request body must be a JSON object containing the following fields:
+- `fullname`: An object containing:
+  - `firstname`: A string with at least 3 characters (required)
+  - `lastname`: A string with at least 3 characters (optional)
+- `email`: A valid email address (required)
+- `password`: A string with at least 6 characters (required)
+- `vehicle`: An object containing:
+  - `color`: A string with at least 3 characters (required)
+  - `plate`: A string with at least 3 characters (required)
+  - `capacity`: An integer with at least 1 (required)
+  - `vehicleType`: A string that must be one of 'car', 'motorcycle', 'auto' (required)
+
+#### Example Request
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "XYZ123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain registered successfully.
+  - **Body**: A JSON object containing the captain details.
+  - **Example**:
+    ```json
+    {
+      "_id": "captain_id",
+      "fullname": {
+        "firstname": "Jane",
+        "lastname": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "vehicle": {
+        "color": "Red",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "vehicleType": "car"
+      }
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Validation error or missing required fields.
+  - **Body**: A JSON object containing the validation errors.
+  - **Example**:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid Email",
+          "param": "email",
+          "location": "body"
+        },
+        {
+          "msg": "First name must be at least 3 characters long",
+          "param": "fullname.firstname",
+          "location": "body"
+        },
+        {
+          "msg": "Password must be at least 6 characters long",
+          "param": "password",
+          "location": "body"
+        },
+        {
+          "msg": "Color must be at least 3 characters long",
+          "param": "vehicle.color",
+          "location": "body"
+        },
+        {
+          "msg": "Plate must be at least 3 characters long",
+          "param": "vehicle.plate",
+          "location": "body"
+        },
+        {
+          "msg": "Capacity must be at least 1",
+          "param": "vehicle.capacity",
+          "location": "body"
+        },
+        {
+          "msg": "Invalid vehicle type",
+          "param": "vehicle.vehicleType",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal Server Error"
+    }
+    ```
